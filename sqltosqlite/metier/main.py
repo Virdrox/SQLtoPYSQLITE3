@@ -63,7 +63,7 @@ def Convert(importPath : str, exportPath : str, namePY : str, nameDB : str):
         #Retirement of spaces at the beginning of the line
         line = line.lstrip()
 
-        """-----------PART OF THE AUTOINCREMENTS & INT-----------"""
+        #-----------PART OF THE AUTOINCREMENTS & INT-----------"""
         #AutoIncrement & arrangement of int
         line = autoIncrementArrangement(lines,line)  
 
@@ -72,7 +72,7 @@ def Convert(importPath : str, exportPath : str, namePY : str, nameDB : str):
         if "CREATE SCHEMA" in line :
             line = ""
 
-        """-------------------PART OF COMMENTS-------------------"""
+        #-------------------PART OF COMMENTS-------------------"""
         #Replaces comments on multiple lines
         if (line.find('/*') != -1 and line.find('*/') == -1  or comBool == True):
             comBool = True
@@ -90,7 +90,7 @@ def Convert(importPath : str, exportPath : str, namePY : str, nameDB : str):
             line = line.replace("*/", "")
             finalScript += '\n' + line + '\n'
 
-        """-------------------PART OF SELECT-------------------"""
+        #-------------------PART OF SELECT-------------------"""
         # For SELECT operator
         elif ("SELECT" or "select") in line :
             if (line[-1:] == ";") :
@@ -103,7 +103,7 @@ def Convert(importPath : str, exportPath : str, namePY : str, nameDB : str):
             else :
                 tempLine += line + " "
 
-        """-------------------PART OF CREATION & INSERTION-------------------"""
+        #-------------------PART OF CREATION & INSERTION-------------------"""
         #arrange the line if the instruction is on a line
         elif (line[-1:] == ";" and tempLine == " "):
             line = line[:-1]
@@ -121,14 +121,14 @@ def Convert(importPath : str, exportPath : str, namePY : str, nameDB : str):
 
     f.close()
     
-    """---------------------------FOOTER-------------------------"""
+    #---------------------------FOOTER-------------------------"""
     finalScript += "\ncon.commit()\n"
     finalScript += "cur.close()\n"
     finalScript += "con.close()\n"
     finalScript += 'print("DB crée !")\n'
     finalScript += 'input()\n'
 
-    """---------------------------EXPORT-------------------------"""
+    #---------------------------EXPORT-------------------------"""
     #Export in python file
     if exportPath[-1:] == "/":
         exportPath = exportPath[:-1]
